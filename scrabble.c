@@ -1,107 +1,62 @@
 #include <stdio.h>
 #include <cs50.h>
 #include <string.h>
+
 /*
-Assign values to chars
-split string into chars
-get value of strings
-determine higher score if any
-declare winner/tie
+char a, A, e, E, i, I, l, L, n, N, o, O, r, R, s, S, t, T, u, U = 1;
+char d, D, g, G = 2;
+char b, B, c, C, m, M, p, P = 3;
+char f, F, h, H, v, V, w, W, y, Y = 4;
+char k, K = 5;
+char j, J, x, X = 8;
+char q, Q, z, Z = 10;
+int word1total = 0;
+int word2total = 0;
 */
-// REFACTOR...try array and combine score functions
 
-
-int getp1WordScore(string p1word);
-int getp2WordScore(string p1word);
+int getWordScore(string word);
 void declareWinner(int score1, int score2);
 
 int main(void)
 {
     string p1word = get_string("Player 1: ");
     string p2word = get_string("Player 2: ");
-    getp1WordScore(p1word);
-    getp2WordScore(p2word);
-    int score1 = getp1WordScore(p1word);
-    int score2 = getp2WordScore(p2word);
+
+    int score1 = getWordScore(p1word);
+    int score2 = getWordScore(p2word);
+
     declareWinner(score1, score2);
 }
 
-int getp1WordScore(string p1word)
+int getWordScore(string word)
 {
-    int score1 = 0;
+    int score = 0;
     // return total of both words separately p1wordScore p2wordScore
-    for (int iter = 0, length = strlen(p1word); iter < length; iter++)
+    // array for point values a-z
+    int pointValues[26] = {
+        1, 3, 3, 2, 1, 4, 2, 4, 1, 8, 5, 1, 3, 1, 1, 3, 10, 1,
+        1, 1, 1, 4, 4, 8, 4, 10
+    };
+
+    for (int iter = 0, length = strlen(word); iter < length; iter++)
     {
-        if (p1word[iter] == 'k' || p1word[iter] == 'K')
+        char currentIndex = word[iter];
+
+        if (currentIndex >= 'a' && currentIndex <= 'z')
         {
-            score1 += 5;
+            score += pointValues[currentIndex -'a'];
         }
-        else if (p1word[iter] == 'd' || p1word[iter] == 'D' || p1word[iter] == 'g' || p1word[iter] == 'G')
+        else if (currentIndex >= 'A' && currentIndex <= 'Z')
         {
-            score1 += 2;
-        }
-        else if (p1word[iter] == 'j' || p1word[iter] == 'J' || p1word[iter] == 'x' || p1word[iter] == 'X')
-        {
-            score1 += 8;
-        }
-        else if (p1word[iter] == 'q' || p1word[iter] == 'Q' || p1word[iter] == 'z' || p1word[iter] == 'Z')
-        {
-            score1 += 10;
-        }
-        else if (p1word[iter] == 'f' || p1word[iter] == 'F' || p1word[iter] == 'h' || p1word[iter] == 'H' || p1word[iter] == 'v' || p1word[iter] == 'V' || p1word[iter] == 'w' || p1word[iter] == 'W' || p1word[iter] == 'y' || p1word[iter] == 'Y')
-        {
-            score1 += 4;
-        }
-        else if (p1word[iter] == 'b' || p1word[iter] == 'B' || p1word[iter] == 'c' || p1word[iter] == 'C' || p1word[iter] == 'm' || p1word[iter] == 'M' || p1word[iter] == 'p' || p1word[iter] == 'P')
-        {
-            score1 += 3;
+            score += pointValues[currentIndex -'A'];
         }
         else
         {
-            score1 += 1;
+            score += 0;
         }
     }
 
-    return score1;
-}
-
-int getp2WordScore(string p2word)
-{
-    int score2 = 0;
-    // return total of both words separately p1wordScore p2wordScore
-    for (int iter = 0, length = strlen(p2word); iter < length; iter++)
-    {
-        if (p2word[iter] == 'k' || p2word[iter] == 'K')
-        {
-            score2 += 5;
-        }
-        else if (p2word[iter] == 'd' || p2word[iter] == 'D' || p2word[iter] == 'g' || p2word[iter] == 'G')
-        {
-            score2 += 2;
-        }
-        else if (p2word[iter] == 'j' || p2word[iter] == 'J' || p2word[iter] == 'x' || p2word[iter] == 'X')
-        {
-            score2 += 8;
-        }
-        else if (p2word[iter] == 'q' || p2word[iter] == 'Q' || p2word[iter] == 'z' || p2word[iter] == 'Z')
-        {
-            score2 += 10;
-        }
-        else if (p2word[iter] == 'f' || p2word[iter] == 'F' || p2word[iter] == 'h' || p2word[iter] == 'H' || p2word[iter] == 'v' || p2word[iter] == 'V' || p2word[iter] == 'w' || p2word[iter] == 'W' || p2word[iter] == 'y' || p2word[iter] == 'Y')
-        {
-            score2 += 4;
-        }
-        else if (p2word[iter] == 'b' || p2word[iter] == 'B' || p2word[iter] == 'c' || p2word[iter] == 'C' || p2word[iter] == 'm' || p2word[iter] == 'M' || p2word[iter] == 'p' || p2word[iter] == 'P')
-        {
-            score2 += 3;
-        }
-        else
-        {
-            score2 += 1;
-        }
-    }
-
-    return score2;
+    return score;
 }
 
 void declareWinner(score1, score2)
