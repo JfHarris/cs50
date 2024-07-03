@@ -133,15 +133,15 @@ bool vote(int voter, int rank, string name)
     *If the preference is successfully recorded, the function should return true
 
     */
-   for (int x = 0; x < candidate_count; x++)
-   {
+    for (int x = 0; x < candidate_count; x++)
+    {
         if (strcmp(candidates[x].name, name) == 0)
         {
             preferences[voter][rank] = x;
             return true;
         }
-   }
-   return false;
+    }
+    return false;
 }
 
 // Tabulate votes for non-eliminated candidates
@@ -151,8 +151,8 @@ void tabulate(void)
     *The function should update the number of votes each candidate has at this stage in the runoff.
     *at each stage in the runoff, every voter effectively votes for their top candidate who has'nt already been eliminated.
     */
-   for (int x = 0; x < voter_count; x++)
-   {
+    for (int x = 0; x < voter_count; x++)
+    {
         for (int y = 0; y < candidate_count; y++)
         {
             if (!candidates[preferences[x][y]].eliminated)
@@ -161,8 +161,8 @@ void tabulate(void)
                 break;
             }
         }
-   }
-   return;
+    }
+    return;
 }
 
 // Print the winner of the election, if there is one
@@ -172,15 +172,15 @@ bool print_winner(void)
     *If any candidate has more than half of the vote, their name should be printed and the function should return true.
     *If nobody has won the election yet, the function should return false.
     */
-   for (int x = 0; x < candidate_count; x++)
-   {
+    for (int x = 0; x < candidate_count; x++)
+    {
         if (candidates[x].votes >= (voter_count / 2) + 1)
         {
             printf("%s\n", candidates[x].name);
             return true;
         }
-   }
-   return false;
+    }
+    return false;
 }
 
 // Return the minimum number of votes any remaining candidate has
@@ -189,16 +189,16 @@ int find_min(void)
     /*
     The function should return the minimum vote total for any candidate who is still in the election.
     */
-   int min = MAX_VOTERS + 1;
+    int min = MAX_VOTERS + 1;
 
-   for (int x = 0; x < candidate_count; x++)
-   {
+    for (int x = 0; x < candidate_count; x++)
+    {
         if (!candidates[x].eliminated && candidates[x].votes < min)
         {
             min = candidates[x].votes;
         }
-   }
-   return min;
+    }
+    return min;
 }
 
 // Return true if the election is tied between all candidates, false otherwise
@@ -208,11 +208,12 @@ bool is_tie(int min)
     function takes an argument min, which will be the minimum number of votes that anyone in the election currently has.
     function should return true if every candidate in the election has the same number of votes, return false otherwise.
     */
-   int candidatesLeft = 0;
-   int candidatesAtMin = 0;
 
-   for (int x = 0; x < candidate_count; x++)
-   {
+    int candidatesLeft = 0;
+    int candidatesAtMin = 0;
+
+    for (int x = 0; x < candidate_count; x++)
+    {
         if (!candidates[x].eliminated)
         {
             candidatesLeft += 1;
@@ -222,13 +223,13 @@ bool is_tie(int min)
                 candidatesAtMin += 1;
             }
         }
-   }
-   if (candidatesLeft == candidatesAtMin)
-   {
+    }
+    if (candidatesLeft == candidatesAtMin)
+    {
         return true;
-   }
+    }
 
-   return false;
+    return false;
 }
 
 // Eliminate the candidate (or candidates) in last place
@@ -238,12 +239,12 @@ void eliminate(int min)
     function takes an argument min, which will be the minimum number of votes that anyone in the election currently has.
     function should eliminate the candidate (or candidates) who have min number of votes.
     */
-   for (int x = 0; x < candidate_count; x++)
-   {
+    for (int x = 0; x < candidate_count; x++)
+    {
         if (candidates[x].votes == min)
         {
             candidates[x].eliminated = true;
         }
-   }
+    }
     return;
 }
